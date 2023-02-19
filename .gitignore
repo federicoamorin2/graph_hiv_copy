@@ -1,0 +1,6 @@
+mlruns/
+venv/
+__pycache__/
+mlflow.db
+data/processed/
+test.ipynb
