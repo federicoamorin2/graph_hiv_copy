@@ -91,7 +91,6 @@ def test(epoch):
     all_preds = []
     all_labels = []
     for batch in tqdm(train_loader):
-        print("oi")
         batch.to(device)
         pred = model(
             batch.x.float(),

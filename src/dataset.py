@@ -46,17 +46,15 @@ class CustomDataset(Dataset):
         return query.collect().to_dict(as_series=False)["index"]
     
     def get(self, idx):
-        return torch.load(self._mk_filename(idx).as_posix())
+        return torch.load(self._mk_filename(idx + self.min_idx).as_posix())
 
     def _iter_data(self):
-        # count = self.min_idx
         current_idx = self.min_idx
         while current_idx < self.max_idx + 1:
             query = self.data.select(['index', 'smiles', 'HIV_active']).filter(
                 pl.col("index") == current_idx
-            )
-            res = query.collect().to_dict(as_series=False)
-            yield res["index"][0], res["smiles"][0], res["HIV_active"][0]
+            ).collect().to_dict(as_series=False)
+            yield query["index"][0], query["smiles"][0], query["HIV_active"][0]
             current_idx += 1
 
 
