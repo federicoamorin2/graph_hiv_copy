@@ -1,12 +1,9 @@
-import os
 from pathlib import Path
-
 import numpy as np
 import polars as pl
 import torch
 from rdkit import Chem
 from torch_geometric.data import Data, Dataset
-
 
 class CustomDataset(Dataset):
     def __init__(self, root, filename, is_test=False, transform=None, pre_transform=None):
@@ -52,12 +49,16 @@ class CustomDataset(Dataset):
         return torch.load(self._mk_filename(idx).as_posix())
 
     def _iter_data(self):
-        count = 0
-        while count < self.max_idx:
-            count += 1
-            yield self.data.select(
-                ['index', 'smiles', 'HIV_active']
-            ).slice(count - 1, count).collect().rows()[0]
+        # count = self.min_idx
+        current_idx = self.min_idx
+        while current_idx < self.max_idx + 1:
+            query = self.data.select(['index', 'smiles', 'HIV_active']).filter(
+                pl.col("index") == current_idx
+            )
+            res = query.collect().to_dict(as_series=False)
+            yield res["index"][0], res["smiles"][0], res["HIV_active"][0]
+            current_idx += 1
+
 
     def process(self):
         for idx, smiles, raw_label in self._iter_data():

@@ -22,7 +22,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 mlflow.set_tracking_uri("http://localhost:5000")
 
 train_dataset = CustomDataset(root="data/", filename="HIV_train.csv")
-test_dataset = CustomDataset(root="data/", filename="HIV_test.csv")
+test_dataset = CustomDataset(root="data/", filename="HIV_test.csv", is_test=True)
 
 
 def count_parameters(model):
