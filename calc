@@ -1,0 +1,80 @@
+
+class CalculadoraBeneficio:
+    def __init__(self, df=None):
+        self.df = df
+    
+    @property
+    def vol_defesa_sem_impacto(self):
+        return 300
+
+    @property
+    def vol_acertos_defesa(self):
+        return 123
+
+    @property
+    def vol_erros_defesa(self):
+        return 234
+
+    @property
+    def vol_acertos_acordo(self):
+        return 94
+
+    @property
+    def vol_erros_acordo(self):
+        return 94
+
+    @property
+    def vol_acordo_sem_impacto(self):
+        return 1203
+
+    @property
+    def beneficio_unitario_defesa(self):
+        return 2432.34
+
+    @property
+    def maleficio_unitario_defesa(self):
+        return 1234.49
+
+    @property
+    def beneficio_unitario_acordo(self):
+        return 2199.34
+
+    @property
+    def maleficio_unitario_acordo(self):
+        return 5602.49
+    
+    @property
+    def beneficio_acordo(self):
+        return (
+            self.beneficio_unitario_acordo * self.vol_acertos_acordo
+        )
+
+    @property
+    def maleficio_acordo(self):
+        return (
+            self.maleficio_unitario_acordo * self.vol_erros_acordo
+        )
+
+    @property
+    def beneficio_total_acordo(self):
+        return self.beneficio_acordo + self.maleficio_acordo
+
+    @property
+    def beneficio_defesa(self):
+        return (
+            self.beneficio_unitario_defesa * self.vol_acertos_defesa
+        )
+
+    @property
+    def maleficio_defesa(self):
+        return (
+            self.maleficio_unitario_defesa * self.vol_erros_defesa
+        )
+    
+    @property
+    def beneficio_total_defesa(self):
+        return self.beneficio_defesa + self.maleficio_defesa
+    
+    @property
+    def beneficio(self):
+        return self.beneficio_total_defesa + self.beneficio_total_acordo
